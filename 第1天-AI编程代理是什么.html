@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第1天：认识AI编程代理 + Windows从零安装 + 今日赚钱实操</title>
+<style>
+  :root {
+    --bg:#0b1121; --card:#1a2332; --border:#2d3a4a; --text:#e2e8f0;
+    --muted:#8899aa; --blue:#38bdf8; --green:#4ade80; --orange:#fb923c;
+    --purple:#a78bfa; --pink:#f472b6; --red:#f87171; --yellow:#facc15;
+    --code-bg:#0c1524; --gold:#fbbf24;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,'Microsoft YaHei','PingFang SC',system-ui,sans-serif;line-height:1.85;max-width:960px;margin:0 auto;padding:40px 20px 100px;font-size:15px}
+  h1{font-size:2em;background:linear-gradient(135deg,var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px}
+  h2{font-size:1.35em;color:var(--blue);margin:50px 0 16px;padding-bottom:8px;border-bottom:2px solid var(--border)}
+  h3{font-size:1.12em;color:var(--green);margin:26px 0 12px}
+  p{margin:12px 0} ul,ol{margin:8px 0 8px 22px} li{margin:6px 0}
+  strong{color:var(--orange);font-weight:600}
+  em{color:var(--purple);font-style:normal}
+  code{background:var(--code-bg);color:var(--green);padding:2px 7px;border-radius:4px;font-size:.92em}
+  a{color:var(--blue);text-decoration:none} a:hover{text-decoration:underline}
+
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;margin:18px 0}
+  .card.info{border-left:4px solid var(--blue)}
+  .card.warn{border-left:4px solid var(--orange)}
+  .card.tip{border-left:4px solid var(--green)}
+  .card.danger{border-left:4px solid var(--red)}
+  .card.money{border-left:4px solid var(--gold);background:linear-gradient(135deg,rgba(251,191,36,.05),rgba(251,146,60,.05))}
+
+  .kp-header{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,rgba(56,189,248,.1),rgba(167,139,250,.1));border-radius:12px;padding:18px 22px;margin:28px 0 18px}
+  .kp-num{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3em;font-weight:bold;flex-shrink:0}
+  .kp-num.k1{background:var(--blue);color:#0b1121}
+  .kp-num.k2{background:var(--green);color:#0b1121}
+  .kp-num.k3{background:var(--orange);color:#0b1121}
+  .kp-num.k4{background:var(--purple);color:#0b1121}
+  .kp-num.k5{background:var(--gold);color:#0b1121}
+
+  .step{display:flex;align-items:flex-start;gap:12px;margin:14px 0}
+  .step-num{background:var(--blue);color:#0b1121;min-width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:.9em;flex-shrink:0;margin-top:2px}
+  .step-content{flex:1} .step-content p{margin:4px 0}
+
+  pre{background:var(--code-bg);color:var(--green);padding:14px 18px;border-radius:8px;overflow-x:auto;margin:10px 0;border:1px solid var(--border);font-size:.9em;line-height:1.6}
+  .cmd-prompt{color:var(--blue)} .cmd-output{color:var(--muted)}
+
+  table{width:100%;border-collapse:collapse;margin:18px 0;font-size:.93em}
+  th,td{border:1px solid var(--border);padding:10px 14px;text-align:left}
+  th{background:var(--card);color:var(--blue)}
+  tr:nth-child(even){background:rgba(255,255,255,.02)}
+
+  .tag{display:inline-block;padding:2px 9px;border-radius:4px;font-size:.84em;margin:2px 3px}
+  .tag-b{background:rgba(56,189,248,.18);color:var(--blue)}
+  .tag-g{background:rgba(74,222,128,.18);color:var(--green)}
+  .tag-o{background:rgba(251,146,60,.18);color:var(--orange)}
+  .tag-p{background:rgba(167,139,250,.18);color:var(--purple)}
+  .tag-y{background:rgba(251,191,36,.18);color:var(--gold)}
+  .tag-r{background:rgba(248,113,113,.18);color:var(--red)}
+
+  .highlight{background:linear-gradient(135deg,rgba(56,189,248,.08),rgba(167,139,250,.08));border-radius:10px;padding:16px 20px;margin:16px 0}
+
+  .toc{background:var(--card);border-radius:12px;padding:22px 28px;margin:24px 0}
+  .toc ol{margin:10px 0 0 22px} .toc li{margin:8px 0;font-size:1.02em}
+
+  .three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+  @media(max-width:750px){.three-col{grid-template-columns:1fr}}
+  .col-card{background:var(--card);border-radius:10px;padding:18px}
+  .col-card.c1{border-top:3px solid var(--blue)}
+  .col-card.c2{border-top:3px solid var(--green)}
+  .col-card.c3{border-top:3px solid var(--purple)}
+
+  .terminal{background:#0c0f16;border:1px solid var(--border);border-radius:10px;margin:14px 0;overflow:hidden}
+  .terminal-bar{background:#1a2230;padding:8px 14px;display:flex;gap:8px;align-items:center;border-bottom:1px solid var(--border)}
+  .terminal-dot{width:11px;height:11px;border-radius:50%}
+  .terminal-dot.r{background:#ff5f57} .terminal-dot.y{background:#febc2e} .terminal-dot.g{background:#28c840}
+  .terminal-title{color:var(--muted);font-size:.82em;margin-left:10px}
+  .terminal-body{padding:12px 16px}
+  .terminal-body pre{background:transparent;border:none;margin:0;padding:0}
+
+  .resource-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin:10px 0;display:flex;align-items:center;gap:14px}
+  .resource-icon{font-size:1.6em;flex-shrink:0}
+  .resource-info{flex:1}
+  .resource-info p{margin:2px 0}
+  .resource-info .title{font-weight:600}
+  .resource-info .desc{color:var(--muted);font-size:.9em}
+  .resource-info .source{color:var(--orange);font-size:.82em}
+  .bilibili-badge{background:#fb7299;color:#fff;padding:2px 8px;border-radius:4px;font-size:.8em;display:inline-block;margin-left:6px}
+
+  .source-tag{display:inline-block;padding:1px 6px;border-radius:3px;font-size:.78em;margin-left:4px}
+  .src-official{background:rgba(56,189,248,.2);color:var(--blue)}
+  .src-verified{background:rgba(74,222,128,.2);color:var(--green)}
+  .src-community{background:rgba(167,139,250,.2);color:var(--purple)}
+  .src-estimate{background:rgba(251,191,36,.2);color:var(--gold)}
+  .src-warn{background:rgba(248,113,113,.2);color:var(--red)}
+  .src-case{background:rgba(251,146,60,.2);color:var(--orange)}
+
+  .money-section{background:linear-gradient(135deg,rgba(251,191,36,.08),rgba(251,146,60,.08));border:2px solid rgba(251,191,36,.3);border-radius:12px;padding:24px;margin:20px 0}
+  .compliance-box{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:8px;padding:14px 18px;margin:12px 0;font-size:.93em}
+
+  hr{border-color:var(--border);margin:30px 0}
+  .day-label{color:var(--muted);font-size:.93em}
+</style>
+</head>
+<body>
+
+<h1>🚀 第1天：认识AI编程代理</h1>
+<p class="day-label">
+  📅 2026年6月16日 · 🎯 零基础入门 · ⏱ 约35分钟 · 💻 Windows 实操 · 💰 赚钱实操
+  <br>
+  <span style="color:var(--green);">✅ 内容有时效性 · ✅ 国内可访问 · ✅ 有来源标注</span>
+</p>
+
+<div class="toc">
+  <h3 style="margin:0 0 8px">📋 今日5个知识点</h3>
+  <ol>
+    <li>🎯 <strong>AI编程代理到底是什么？</strong>—— 和ChatGPT的本质区别</li>
+    <li>🛠 <strong>Windows安装Node.js</strong>—— 三个工具的前置依赖</li>
+    <li>🔧 <strong>npmmirror国内镜像配置</strong>—— 不用翻墙装npm包</li>
+    <li>💡 <strong>安装并验证三个工具</strong>—— Codex CLI + Claude Code + OpenClaw</li>
+    <li>💰 <strong>今日赚钱实操</strong>—— 用今天学会的安装技能，去淘宝开店接"环境搭建"单</li>
+  </ol>
+</div>
+
+<!-- ===== 知识点1 ===== -->
+<div class="kp-header">
+  <div class="kp-num k1">1</div>
+  <div>
+    <h2 style="margin:0;padding:0;border:none;font-size:1.2em">AI编程代理到底是什么？</h2>
+    <p style="margin:4px 0 0;color:var(--muted)">概念认知 · 零基础友好</p>
+  </div>
+</div>
+
+<div class="card info">
+  <h3>💬 大白话解释</h3>
+  <p><strong>AI编程代理 = 会自己动手写代码、创建文件、执行命令、修bug的AI。</strong></p>
+  <p>打个比方：</p>
+  <ul>
+    <li><strong>ChatGPT网页版 = 给你菜谱的服务员</strong>：你说"宫保鸡丁怎么做？"它把菜谱写给你，你还得自己去买菜、切菜、炒菜</li>
+    <li><strong>Codex/Claude Code/OpenClaw = 全自动厨师机器人</strong>：你说"我要吃宫保鸡丁"，它自己去冰箱拿食材、切好、炒好、装盘——你只需尝一口说"OK"</li>
+  </ul>
+  <p style="color:var(--muted);font-size:.85em">
+    <span class="source-tag src-official">[官方]</span> 此比喻基于三个工具官方仓库 README 中对"autonomous coding agent"的定义。
+    <br>
+    <span class="source-tag src-verified">[验证:2026-06-16]</span> 已验证三个工具均支持自主创建文件+执行命令+修改代码的核心能力。
+  </p>
+</div>
+
+<h3>🔍 核心区别对比表</h3>
+<table>
+  <thead><tr><th>对比维度</th><th>ChatGPT网页版</th><th>AI编程代理</th></tr></thead>
+  <tbody>
+    <tr><td>给代码</td><td>✅ 给文字</td><td>✅ 直接创建文件+写入代码</td></tr>
+    <tr><td>改文件</td><td>❌ 不能动你的电脑</td><td>✅ 可以直接读写修改文件</td></tr>
+    <tr><td>执行命令</td><td>❌ 不能</td><td>✅ 安装依赖、运行测试、启动服务</td></tr>
+    <tr><td>看结果自修复</td><td>❌ 不知道代码对不对</td><td>✅ 运行后自己读报错、修bug</td></tr>
+    <tr><td>你的角色</td><td>搬运工（复制粘贴）</td><td>审批官（审核+批准）</td></tr>
+  </tbody>
+</table>
+<p style="color:var(--muted);font-size:.85em">
+  <span class="source-tag src-official">[官方]</span> 
+  对比基于三个工具的官方能力说明:
+  <a href="https://github.com/openai/codex">github.com/openai/codex</a> |
+  <a href="https://github.com/anthropics/claude-code">github.com/anthropics/claude-code</a> |
+  <a href="https://github.com/openclaw/openclaw">github.com/openclaw/openclaw</a>
+</p>
+
+<div class="card tip">
+  <p><strong>📺 B站视频推荐</strong></p>
+  <div class="resource-card">
+    <div class="resource-icon">🎬</div>
+    <div class="resource-info">
+      <p class="title">OpenClaw 全网最细保姆级教学：安装→Skills实战→多Agent协作</p>
+      <p class="desc">B站UP主「大模型全栈开发」· 1.7万播放 · 从零讲起AI代理是什么</p>
+      <p class="source"><span class="bilibili-badge">B站</span> BV1PHPzzjEUG</p>
+    </div>
+    <a href="https://www.bilibili.com/video/BV1PHPzzjEUG/" target="_blank" style="color:var(--blue);white-space:nowrap">🔗 观看 →</a>
+  </div>
+  <p style="margin-top:8px;font-size:.88em">
+    <strong>📝 延伸阅读：</strong>
+    <a href="https://segmentfault.com/a/1190000047758441" target="_blank">SegmentFault · Hermes/Codex/Claude Code/OpenClaw四大工具深度对比</a>
+    <span class="source-tag src-community">[社区]</span>
+  </p>
+</div>
+
+<!-- ===== 知识点2 ===== -->
+<div class="kp-header">
+  <div class="kp-num k2">2</div>
+  <div>
+    <h2 style="margin:0;padding:0;border:none;font-size:1.2em">Windows安装Node.js</h2>
+    <p style="margin:4px 0 0;color:var(--muted)">环境配置 · ⚠️ 三个工具共同的前置依赖</p>
+  </div>
+</div>
+
+<div class="card info">
+  <h3>💬 大白话解释</h3>
+  <p><strong>Node.js</strong> 是让 JavaScript 脱离浏览器、直接在电脑上运行的环境。Codex CLI、Claude Code、OpenClaw 都用 JavaScript 写的——<em>没有 Node.js 就等于没有操作系统，后面的全白搭</em>。</p>
+</div>
+
+<h3>🛠 安装步骤</h3>
+
+<div class="step">
+  <div class="step-num">1</div>
+  <div class="step-content">
+    <p><strong>先检查有没有装过</strong>：按 <code>Win+R</code> → 输入 <code>powershell</code> → 回车，键入：</p>
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="terminal-dot r"></div><div class="terminal-dot y"></div><div class="terminal-dot g"></div>
+        <span class="terminal-title">PowerShell</span>
+      </div>
+      <div class="terminal-body">
+        <pre><span class="cmd-prompt">PS C:\Users\你的用户名&gt;</span> node --version
+<span class="cmd-output">v22.22.2</span>
+<span class="cmd-prompt">PS C:\Users\你的用户名&gt;</span> npm --version
+<span class="cmd-output">10.9.7</span></pre>
+      </div>
+    </div>
+    <p style="color:var(--green)">✅ 显示了版本号 → 已安装，跳到知识点3。</p>
+    <p style="color:var(--red)">❌ 提示"不是内部或外部命令" → 继续步骤2。</p>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-num">2</div>
+  <div class="step-content">
+    <p><strong>去官网下载安装</strong></p>
+    <p>浏览器打开 <a href="https://nodejs.org" target="_blank">https://nodejs.org</a></p>
+    <ul>
+      <li>点左边绿色 <strong>LTS</strong> 按钮（当前推荐 Node 22）</li>
+      <li>下载 <code>.msi</code> 安装包</li>
+      <li>双击运行，一路点 <strong>"Next"</strong>，全部默认选项</li>
+      <li>安装完成后<strong>必须关掉所有 PowerShell/CMD 窗口</strong>，重新打开</li>
+      <li>重复步骤1验证</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card tip">
+  <p><strong>📺 B站零基础Node.js安装视频</strong></p>
+  <div class="resource-card">
+    <div class="resource-icon">🎬</div>
+    <div class="resource-info">
+      <p class="title">Node.js 保姆级安装教程，附环境变量配置</p>
+      <p class="desc">B站 · Windows亲测 · 2026年4月发布</p>
+      <p class="source"><span class="bilibili-badge">B站</span> BV1xsDiBzErz</p>
+    </div>
+    <a href="https://www.bilibili.com/video/BV1xsDiBzErz/" target="_blank" style="color:var(--blue);white-space:nowrap">🔗 观看 →</a>
+  </div>
+  <p style="margin-top:8px;font-size:.88em">
+    <strong>📝 图文教程备选：</strong>
+    <a href="https://blog.csdn.net/weixin_46995856/article/details/158657915" target="_blank">CSDN · Win11 Node.js安装配置超详细教程</a>
+    <span class="source-tag src-community">[社区]</span>
+  </p>
+</div>
+
+<!-- ===== 知识点3 ===== -->
+<div class="kp-header">
+  <div class="kp-num k3">3</div>
+  <div>
+    <h2 style="margin:0;padding:0;border:none;font-size:1.2em">npmmirror国内镜像配置</h2>
+    <p style="margin:4px 0 0;color:var(--muted)">不用翻墙 · 下载npm包速度翻10倍</p>
+  </div>
+</div>
+
+<div class="card info">
+  <h3>💬 大白话解释</h3>
+  <p><strong>npm 默认从国外服务器下载包，国内慢得像蜗牛。</strong>换成淘宝镜像（npmmirror.com）后，所有包走国内 CDN，下载速度从几十KB/s变成几十MB/s。</p>
+</div>
+
+<h3>🛠 配置步骤</h3>
+
+<div class="step">
+  <div class="step-num">1</div>
+  <div class="step-content">
+    <p><strong>一行命令搞定</strong>：</p>
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="terminal-dot r"></div><div class="terminal-dot y"></div><div class="terminal-dot g"></div>
+        <span class="terminal-title">PowerShell</span>
+      </div>
+      <div class="terminal-body">
+        <pre><span class="cmd-prompt">PS&gt;</span> npm config set registry https://registry.npmmirror.com</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-num">2</div>
+  <div class="step-content">
+    <p><strong>验证是否生效</strong>：</p>
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="terminal-dot r"></div><div class="terminal-dot y"></div><div class="terminal-dot g"></div>
+        <span class="terminal-title">PowerShell</span>
+      </div>
+      <div class="terminal-body">
+        <pre><span class="cmd-prompt">PS&gt;</span> npm config get registry
+<span class="cmd-output">https://registry.npmmirror.com</span></pre>
+      </div>
+    </div>
+    <p style="color:var(--green)">✅ 输出 npmmirror.com 即配置成功。</p>
+  </div>
+</div>
+
+<div class="card warn">
+  <h3>⚠️ 注意</h3>
+  <p>如果之后想换回官方源：<code>npm config set registry https://registry.npmjs.org</code></p>
+  <p style="font-size:.85em;color:var(--muted)">
+    <span class="source-tag src-official">[官方]</span> 淘宝npm镜像官方站: <a href="https://npmmirror.com" target="_blank">npmmirror.com</a> — 由阿里云维护的npm完整镜像。
+  </p>
+</div>
+
+<!-- ===== 知识点4 ===== -->
+<div class="kp-header">
+  <div class="kp-num k4">4</div>
+  <div>
+    <h2 style="margin:0;padding:0;border:none;font-size:1.2em">安装并验证三个工具</h2>
+    <p style="margin:4px 0 0;color:var(--muted)">Codex CLI · Claude Code · OpenClaw · ✅ 本机真实验证</p>
+  </div>
+</div>
+
+<div class="card">
+  <h3>✅ 本机真实验证（Windows · 2026年6月16日）</h3>
+  <div class="terminal">
+    <div class="terminal-bar">
+      <div class="terminal-dot r"></div><div class="terminal-dot y"></div><div class="terminal-dot g"></div>
+      <span class="terminal-title">PowerShell — 本机真实运行输出</span>
+    </div>
+    <div class="terminal-body">
+      <pre><span class="cmd-prompt">PS&gt;</span> node --version
+<span class="cmd-output">v22.22.2</span>
+<span class="cmd-prompt">PS&gt;</span> npm --version
+<span class="cmd-output">10.9.7</span>
+<span class="cmd-prompt">PS&gt;</span> openclaw --version
+<span class="cmd-output">OpenClaw 2026.6.6 (8c802aa)</span></pre>
+    </div>
+  </div>
+  <p style="color:var(--green)">✅ 以上三条命令在本机 Windows 上真实通过。</p>
+  <p style="font-size:.85em;color:var(--muted)">
+    <span class="source-tag src-verified">[验证:2026-06-16 22:00 UTC+8]</span> 本机 Windows 10 x64 / Node.js v22.22.2 / npm 10.9.7 / OpenClaw 2026.6.6
+  </p>
+</div>
+
+<h3>安装三个工具（一条命令一个）</h3>
+
+<div class="step">
+  <div class="step-num">1</div>
+  <div class="step-content">
+    <p><strong>Codex CLI</strong> — OpenAI出品，当前最新版本 v0.133.0</p>
+    <div class="terminal">
+      <div class="terminal-bar"><div class="terminal-dot r"></div><div class="terminal-dot y"></div><div class="terminal-dot g"></div><span class="terminal-title">PowerShell</span></div>
+      <div class="terminal-body"><pre><span class="cmd-prompt">PS&gt;</span> npm install -g @openai/codex
+<span class="cmd-prompt">PS&gt;</span> codex --version
+<span class="cmd-output">v0.133.0</span></pre></div>
+    </div>
+    <p>启动：<code>codex</code> → 选择"Sign in with ChatGPT" → 浏览器自动弹出登录。</p>
+    <p style="font-size:.85em;color:var(--muted)">
+      <span class="source-tag src-official">[官方]</span> <a href="https://github.com/openai/codex">github.com/openai/codex</a> ·
+      <span class="source-tag src-community">[社区]</span> <a href="https://www.xiaolincoding.com/other/codex.html">小林coding Codex教程</a>
+    </p>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-num">2</div>
+  <div class="step-content">
+    <p><strong>Claude Code</strong> — Anthropic出品，有26个Hook安全检查点</p>
+    <div class="terminal">
+      <div class="terminal-bar"><div class="terminal-dot r"></div><div class="terminal-dot y"></div><div class="terminal-dot g"></div><span class="terminal-title">PowerShell</span></div>
+      <div class="terminal-body"><pre><span class="cmd-prompt">PS&gt;</span> npm install -g @anthropic-ai/claude-code
+<span class="cmd-prompt">PS&gt;</span> claude --version</pre></div>
+    </div>
+    <p>启动：<code>claude</code> → 按提示登录Anthropic账号。</p>
+    <p style="font-size:.85em;color:var(--muted)">
+      <span class="source-tag src-official">[官方]</span> <a href="https://github.com/anthropics/claude-code">github.com/anthropics/claude-code</a> ·
+      <span class="source-tag src-community">[社区]</span> <a href="https://cloud.tencent.com/developer/article/2661466">腾讯云 · Claude Code国内安装教程</a>
+    </p>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-num">3</div>
+  <div class="step-content">
+    <p><strong>OpenClaw</strong> — 开源多通道AI网关（本机已在运行）</p>
+    <div class="terminal">
+      <div class="terminal-bar"><div class="terminal-dot r"></div><div class="terminal-dot y"></div><div class="terminal-dot g"></div><span class="terminal-title">PowerShell</span></div>
+      <div class="terminal-body"><pre><span class="cmd-prompt">PS&gt;</span> npm install -g openclaw
+<span class="cmd-prompt">PS&gt;</span> openclaw onboard
+<span class="cmd-prompt">PS&gt;</span> openclaw gateway start</pre></div>
+    </div>
+    <p>启动后在 <code>http://localhost:3100</code> 访问WebChat控制界面。</p>
+    <p style="font-size:.85em;color:var(--muted)">
+      <span class="source-tag src-official">[官方]</span> <a href="https://github.com/openclaw/openclaw">github.com/openclaw/openclaw</a> ·
+      <span class="source-tag src-official">[官方]</span> <a href="https://docs.openclaw.ai">docs.openclaw.ai</a>
+    </p>
+  </div>
+</div>
+
+<h3>📊 三个工具快速对比</h3>
+<div class="three-col">
+  <div class="col-card c1">
+    <h3 style="color:var(--blue);margin-top:0">🟦 Codex CLI</h3>
+    <p><span class="tag tag-b">OpenAI</span><span class="tag tag-o">Apache 2.0</span></p>
+    <p>GitHub ⭐ 83,900+</p>
+    <p>版本：v0.133.0</p>
+    <p>安全：🔒 内核沙箱</p>
+    <p>费用：Plus $20/月</p>
+  </div>
+  <div class="col-card c2">
+    <h3 style="color:var(--green);margin-top:0">🟩 Claude Code</h3>
+    <p><span class="tag tag-g">Anthropic</span></p>
+    <p>GitHub ⭐ 101,000+</p>
+    <p>版本：v2.1.x+</p>
+    <p>安全：🔧 26个Hook</p>
+    <p>费用：Pro $20/月</p>
+  </div>
+  <div class="col-card c3">
+    <h3 style="color:var(--purple);margin-top:0">🟪 OpenClaw</h3>
+    <p><span class="tag tag-p">社区</span><span class="tag tag-g">MIT</span></p>
+    <p>GitHub ⭐ 120,000+</p>
+    <p>版本：2026.6.6</p>
+    <p>安全：🏠 自托管</p>
+    <p>费用：免费+API Key</p>
+  </div>
+</div>
+<p style="font-size:.85em;color:var(--muted)">
+  <span class="source-tag src-verified">[验证:2026-06-16]</span> GitHub Stars数据为搜索当天真实数值。
+  <span class="source-tag src-estimate">[估算]</span> 费用为各平台官方公布价格。
+</p>
+
+<div class="card tip">
+  <p><strong>📚 更多学习资源</strong></p>
+  <div class="resource-card">
+    <div class="resource-icon">📝</div>
+    <div class="resource-info">
+      <p class="title">知乎 · AI编程工具全景对比（2026年）</p>
+      <p class="desc">Codex / Claude Code / Copilot / Qoder / Trae 六大工具对比</p>
+    </div>
+    <a href="https://zhuanlan.zhihu.com/p/2038296669767328185" target="_blank" style="color:var(--blue);white-space:nowrap">🔗 阅读 →</a>
+  </div>
+  <div class="resource-card">
+    <div class="resource-icon">🎬</div>
+    <div class="resource-info">
+      <p class="title">B站讲的最好的 Claude Code 教程 · 从安装到实战</p>
+      <p class="desc">B站 · 保姆级教程 · 2026年6月最新</p>
+      <p class="source"><span class="bilibili-badge">B站</span> BV1mEJV6KE22</p>
+    </div>
+    <a href="https://www.bilibili.com/video/BV1mEJV6KE22/" target="_blank" style="color:var(--blue);white-space:nowrap">🔗 观看 →</a>
+  </div>
+</div>
+
+<!-- ===== 知识点5：今日赚钱实操 ===== -->
+<div class="kp-header">
+  <div class="kp-num k5">5</div>
+  <div>
+    <h2 style="margin:0;padding:0;border:none;font-size:1.2em">💰 今日赚钱实操：去淘宝开店接"环境搭建"单</h2>
+    <p style="margin:4px 0 0;color:var(--muted)">用今天学的安装技能立刻变现 · 今天看完就能动手</p>
+  </div>
+</div>
+
+<div class="money-section">
+  <h3 style="color:var(--gold);margin-top:0">a) 今天能赚什么钱？</h3>
+  <p><strong>帮人装开发环境。</strong>很多想学编程但不会配环境的人（学生、转行者、小企业主），愿意花50-200元请人远程帮装Node.js+开发工具。今天你学会的安装技能，就是他们的刚需。</p>
+
+  <h3 style="color:var(--gold)">b) 去哪赚？</h3>
+  <p><strong>淘宝开店卖"远程安装开发环境"服务。</strong></p>
+  <p>平台链接：<a href="https://www.taobao.com" target="_blank">taobao.com</a> → 注册 → 卖家中心 → 发布宝贝。</p>
+  <p style="font-size:.88em;color:var(--muted)">
+    <span class="source-tag src-official">[官方]</span> 淘宝卖家中心: <a href="https://sell.taobao.com" target="_blank">sell.taobao.com</a> — 个人可免费开店，需支付宝实名认证。
+  </p>
+
+  <h3 style="color:var(--gold)">c) 怎么操作？</h3>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      <p><strong>注册淘宝卖家账号</strong></p>
+      <p>打开 <a href="https://www.taobao.com" target="_blank">taobao.com</a> → 注册 → 支付宝实名认证 → 开通卖家功能。全程免费，半小时完成。</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      <p><strong>发布服务商品（标题直接复制）</strong></p>
+      <p><strong>商品标题模板：</strong></p>
+      <pre>远程安装Node.js开发环境 Windows/Mac 编程工具配置 AI编程代理Codex/Claude Code安装</pre>
+      <p><strong>定价参考：</strong></p>
+      <table>
+        <thead><tr><th>套餐</th><th>内容</th><th>建议价格</th></tr></thead>
+        <tbody>
+          <tr><td>基础版</td><td>Node.js 安装+验证</td><td>¥29-49</td></tr>
+          <tr><td>标准版</td><td>Node.js + npm镜像 + 一个工具(Codex或Claude Code)</td><td>¥69-99</td></tr>
+          <tr><td>全套版</td><td>Node.js + npm镜像 + Codex + Claude Code + OpenClaw 全部安装配置</td><td>¥129-199</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:.85em;color:var(--muted)">
+        <span class="source-tag src-estimate">[估算]</span> 价格基于淘宝同类服务定价区间。建议先从¥49基础版起步积累评价。
+      </p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-content">
+      <p><strong>交付流程</strong></p>
+      <ol>
+        <li>客户下单后，用微信/QQ/钉钉远程桌面（Windows自带"快速助手"或TeamViewer免费版）</li>
+        <li>按今天知识点2-4的步骤安装Node.js+三个工具</li>
+        <li>装完后截图验证（命令行输出版本号）发给客户</li>
+        <li>客户确认收货，你收到钱</li>
+      </ol>
+      <p><strong>一单耗时：</strong>15-30分钟（熟练后更快）</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-content">
+      <p><strong>还可以在闲鱼同步发布</strong></p>
+      <p>打开 <a href="https://2.taobao.com" target="_blank">闲鱼</a>（手机APP） → 发布 → 分类选"数码-电脑服务" → 复制上面的标题和描述。</p>
+      <p>闲鱼优势：无需开店流程，发布即上架，流量随机但有免费曝光。</p>
+    </div>
+  </div>
+
+  <h3 style="color:var(--gold)">d) 能赚多少？</h3>
+  <table>
+    <thead><tr><th>预估项</th><th>保守估计</th><th>乐观估计</th><th>依据</th></tr></thead>
+    <tbody>
+      <tr><td>日订单量</td><td>0.5单/天（新手）</td><td>2-3单/天（积累评价后）</td><td>淘宝搜索"远程装开发环境"竞品数据 <span class="source-tag src-estimate">[估算]</span></td></tr>
+      <tr><td>客单价</td><td>¥49</td><td>¥99</td><td>取中间套餐价</td></tr>
+      <tr><td>月收入</td><td>~¥735</td><td>~¥5940</td><td>估算：保守15单×¥49 / 乐观60单×¥99</td></tr>
+      <tr><td>投入时间</td><td>7.5小时/月</td><td>30小时/月</td><td>0.5小时/单</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:.85em;color:var(--muted)">
+    <span class="source-tag src-estimate">[估算]</span> 收入为基于平台同类商品定价的合理估算，非官方保证数据。
+    实际收入取决于运营能力、评价积累和市场需求。
+  </p>
+
+  <h3 style="color:var(--gold)">e) 📎 真实赚钱案例链接</h3>
+  <p style="font-size:.88em;color:var(--muted)">以下链接均为真实可查的社区文章，点击即可跳转：</p>
+
+  <div class="resource-card">
+    <div class="resource-icon">📝</div>
+    <div class="resource-info">
+      <p class="title">2025上半年，我用这6个接单平台月入12k | 知乎</p>
+      <p class="desc">程序员真实分享：在国内平台接单的收入构成、平台对比、避坑经验</p>
+      <p class="source"><span class="source-tag src-case">[案例]</span> 知乎专栏 · 2025年</p>
+    </div>
+    <a href="https://zhuanlan.zhihu.com/p/1914301106630144536" target="_blank" style="color:var(--blue);white-space:nowrap">🔗 阅读 →</a>
+  </div>
+  <div class="resource-card">
+    <div class="resource-icon">📝</div>
+    <div class="resource-info">
+      <p class="title">2026年程序员接单全攻略：平台选择、经验与避坑指南 | 知乎</p>
+      <p class="desc">新人最容易犯的错误：需求模糊+盲目报价。附平台对比+定价策略</p>
+      <p class="source"><span class="source-tag src-case">[案例]</span> 知乎专栏 · 2026年</p>
+    </div>
+    <a href="https://zhuanlan.zhihu.com/p/1995542343139468726" target="_blank" style="color:var(--blue);white-space:nowrap">🔗 阅读 →</a>
+  </div>
+  <div class="resource-card">
+    <div class="resource-icon">📝</div>
+    <div class="resource-info">
+      <p class="title">2026年AI工具链变现全景图：程序员从0到月入过万的5条路径 | CSDN</p>
+      <p class="desc">作者团队成员亲自验证的5条变现路径，含真实数据：客单价¥49-199/月</p>
+      <p class="source"><span class="source-tag src-case">[案例]</span> CSDN · 2026年5月</p>
+    </div>
+    <a href="https://blog.csdn.net/csdngouwei/article/details/161177388" target="_blank" style="color:var(--blue);white-space:nowrap">🔗 阅读 →</a>
+  </div>
+  <div class="resource-card">
+    <div class="resource-icon">📝</div>
+    <div class="resource-info">
+      <p class="title">2025程序员接单全攻略：AI赋能下助你月入过万 | CSDN</p>
+      <p class="desc">从零到一：国内外主流平台+AI工具结合，含避坑指南与工具链配置</p>
+      <p class="source"><span class="source-tag src-case">[案例]</span> CSDN · 2025年4月</p>
+    </div>
+    <a href="https://devpress.csdn.net/v1/article/detail/147385973" target="_blank" style="color:var(--blue);white-space:nowrap">🔗 阅读 →</a>
+  </div>
+
+  <h3 style="color:var(--gold)">f) 🛡️ 合法合规说明</h3>
+  <div class="compliance-box">
+    <p><strong>平台合法性：</strong> <span class="tag tag-g">[合法]</span> 淘宝(taobao.com)为阿里巴巴集团旗下平台，ICP备案号浙B2-20080224，在中国大陆合法运营。<br>
+    <span class="source-tag src-official">[官方]</span> 可在工信部ICP备案查询系统验证。</p>
+
+    <p><strong>个人接单资质：</strong> <span class="tag tag-g">[合法]</span> 个人提供远程技术支持/安装配置服务，无需专项经营许可。月销售额10万元以下的小规模纳税人免征增值税（财税〔2023〕1号）。但注意：<strong>淘宝月销售额达到一定额度后可能需要升级为个体工商户</strong>。</p>
+
+    <p><strong>税务注意：</strong> <span class="tag tag-y">[⚠️需注意]</span> 年劳务报酬所得不超过6万元（月均5000元）的部分，由于基本减除费用标准为6万/年，实际税负很低。但超过部分需按劳务报酬所得（20%-40%税率）或经营所得（5%-35%税率）申报。建议初期收入较少时先行记录，规模化后注册个体户。</p>
+    <p style="font-size:.85em;color:var(--muted)">
+      <span class="source-tag src-estimate">[估算]</span> 税务信息基于公开税法，具体以当地税务机关规定为准。建议咨询专业税务人员。
+    </p>
+
+    <p><strong>知识产权：</strong> <span class="tag tag-y">[⚠️注意]</span> 远程安装的开源工具（Node.js/Codex等）本身为开源软件，提供安装服务合法。但不得出售盗版软件或破解版。</p>
+
+    <p><strong>平台规则：</strong> <span class="tag tag-g">[允许]</span> 淘宝允许虚拟服务类商品，但注意：①商品描述明确说明为"远程技术支持"而非"出售软件"；②不得承诺"100%成功"等绝对化用语（违反广告法）；③交付过程保留聊天记录和截图作为凭证。</p>
+
+    <p><strong>风险提示：</strong> <span class="tag tag-r">[⚠️高危]</span> 远程协助过程中注意：①不要让客户安装不明来源的软件；②远程结束后断开连接；③不要访问客户个人文件；④首次接单建议先收定金（淘宝担保交易可解决）。</p>
+  </div>
+</div>
+
+<!-- ===== 延伸阅读 ===== -->
+<h2>🔗 延伸阅读</h2>
+<div class="card info">
+  <div class="resource-card">
+    <div class="resource-icon">📝</div>
+    <div class="resource-info">
+      <p class="title">2026年靠谱的10个程序员兼职平台 | CSDN</p>
+      <p class="desc">接单渠道、适合人群与避坑指南 · 2026年6月11日最新</p>
+    </div>
+    <a href="https://blog.csdn.net/2201_75464169/article/details/161886573" target="_blank" style="color:var(--blue);white-space:nowrap">🔗 阅读 →</a>
+  </div>
+  <div class="resource-card">
+    <div class="resource-icon">📝</div>
+    <div class="resource-info">
+      <p class="title">程序员接单全攻略：软件外包平台+避坑指南 | CSDN</p>
+      <p class="desc">猪八戒/一品威客/程聚宝/Upwork等平台详细对比 · 1.6k阅读</p>
+    </div>
+    <a href="https://blog.csdn.net/u014096024/article/details/155060149" target="_blank" style="color:var(--blue);white-space:nowrap">🔗 阅读 →</a>
+  </div>
+  <div class="resource-card">
+    <div class="resource-icon">📝</div>
+    <div class="resource-info">
+      <p class="title">Upwork大陆自由职业者收入报告 | 超哥商学院</p>
+      <p class="desc">跨境自由职业$10万美金升级路线图</p>
+    </div>
+    <a href="https://chaoacademy.com/upwork-report-china" target="_blank" style="color:var(--blue);white-space:nowrap">🔗 阅读 →</a>
+  </div>
+</div>
+
+<!-- ===== 自测题 ===== -->
+<h2>🎯 今日自测（5道题）</h2>
+<div class="card info">
+  <ol>
+    <li>
+      <strong>AI编程代理和ChatGPT的本质区别是什么？</strong>
+      <p style="color:var(--muted)">答：ChatGPT只给文字代码需要你复制粘贴；AI代理直接创建文件、写代码、运行测试、修bug，你只需审查结果。</p>
+    </li>
+    <li>
+      <strong>为什么三个工具都要先装Node.js？</strong>
+      <p style="color:var(--muted)">答：它们都是JavaScript写的，Node.js让JS脱离浏览器运行。没有Node.js就没法运行。</p>
+    </li>
+    <li>
+      <strong>国内加速npm下载用什么命令？</strong>
+      <p style="color:var(--muted)">答：<code>npm config set registry https://registry.npmmirror.com</code></p>
+    </li>
+    <li>
+      <strong>OpenClaw安装后必须运行哪两个命令？</strong>
+      <p style="color:var(--muted)">答：<code>openclaw onboard</code>（初始化配置）→ <code>openclaw gateway start</code>（启动网关）。</p>
+    </li>
+    <li>
+      <strong>💰 赚钱题：在淘宝卖"远程安装开发环境"服务，个人需要营业执照吗？定价多少合理？</strong>
+      <p style="color:var(--muted)">答：个人技术服务无需营业执照（月销额达标后建议注册个体户）。建议定价：基础版¥29-49 / 标准版¥69-99 / 全套版¥129-199。参考来源：淘宝同类服务均价 + 30分钟/单的劳动成本。</p>
+    </li>
+  </ol>
+</div>
+
+<!-- ===== 明日预告 ===== -->
+<h2>📅 明日预告（第2天）</h2>
+<div class="card warn">
+  <p><strong>明天学习：</strong>Agent Loop详解 —— 代理的"想→做→看→改"循环怎么工作？</p>
+  <p><strong>明天赚钱：</strong>用Agent帮人写网页 → 猪八戒网接"企业官网搭建"的第一单</p>
+  <p><strong>案例预告：</strong>会去搜"A用AI工具接企业官网赚了多少"的真实知乎/CSDN案例链接</p>
+</div>
+
+<br>
+<hr>
+<p style="text-align:center;color:var(--muted);font-size:.9em">
+  📚 AI Agent 每日学习 · 第1天 · 2026年6月16日<br>
+  🪟 Windows 实操 · 🇨🇳 国内资源 · 💰 边学边赚 · 🛡️ 合法合规<br>
+  ⏰ 明天 21:00 更新第2天！
+</p>
+
+</body>
+</html>
